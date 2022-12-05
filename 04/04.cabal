@@ -1,0 +1,9 @@
+name:          d04
+version:       1
+build-type:    Simple
+cabal-version: 1.12
+
+executable 04
+  main-is:             04.hs
+  build-depends:       base >=4.8 && <5, text, attoparsec
+  default-language:    Haskell2010
