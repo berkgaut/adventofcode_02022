@@ -37,12 +37,8 @@ part1 input =
     $ T.lines
     $ input
 
-isPairOverlapping (a, b) (x, y) =
-    ((a <= x) && (x <= b)) 
-    || ((a <= y) && (y <= b))
-
-isOverlapping (pair1, pair2) =
-    isPairOverlapping pair1 pair2 || isPairOverlapping pair2 pair1
+isOverlapping ((a, b), (x, y)) =
+    ((max b y) - (min a x) + 1) < (b - a + 1) + (y - x + 1)
 
 part2 input =
     length
