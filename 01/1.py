@@ -2,7 +2,7 @@
 
 elves1 = []
 
-with open("1.txt") as f:
+with open("../data/01.txt") as f:
     elf = list()
     for line in f.readlines():
         if len(line)==1:

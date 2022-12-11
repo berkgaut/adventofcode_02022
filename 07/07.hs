@@ -144,7 +144,7 @@ part2 text = minDirSize where
 main :: IO ()
 main = do
     example <- TIO.readFile "07-example.txt"
-    input <- TIO.readFile "07.txt"
+    input <- TIO.readFile "../data/07.txt"
     putStrLn "part 1"
     putStrLn $ show $ part1 $ example
     putStrLn $ show $ part1 $ input

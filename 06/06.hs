@@ -21,7 +21,7 @@ main = do
     putStrLn . show $ part1 $ "nppdvjthqldpwncqszvftbrmjlhg"
     putStrLn . show $ part1 $ "nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg"
     putStrLn . show $ part1 $ "zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw"
-    input <- readFile "06.txt"
+    input <- readFile "../data/06.txt"
     putStrLn . show $ part1 $ input
     putStrLn "part2"
     putStrLn . show $ part2 $ "mjqjpqmgbljsphdztnvjfqwrcgsmlb"

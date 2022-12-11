@@ -43,7 +43,7 @@ main :: IO ()
 main = do
     example1 <- TIO.readFile "03-part-1-example.txt"
     putStrLn . show . part1 $ example1
-    input <- TIO.readFile "03.txt"
+    input <- TIO.readFile "../data/03.txt"
     putStrLn . show . part1 $ input
     example2 <- TIO.readFile "03-part-2-example.txt"
     putStrLn . show . part2 $ example2

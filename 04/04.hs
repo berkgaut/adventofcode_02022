@@ -51,7 +51,7 @@ main :: IO ()
 main = do
     example <- TIO.readFile "04-example.txt"
     putStrLn . show . part1 $ example
-    input <- TIO.readFile "04.txt"
+    input <- TIO.readFile "../data/04.txt"
     putStrLn . show . part1 $ input
     putStrLn . show . part2 $ example
     putStrLn . show . part2 $ input

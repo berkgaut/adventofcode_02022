@@ -26,7 +26,7 @@ outcome={
     'SS': 3,
 }
 
-with open("2.txt") as f:
+with open("../data/02.txt") as f:
     total_score = 0
     for line in f.readlines():
         theirs = theirs_code[line[0]]

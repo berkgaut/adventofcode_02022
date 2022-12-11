@@ -133,7 +133,7 @@ main :: IO ()
 main = do
     example <- TIO.readFile "05-example.txt"
     putStrLn . show $ part1 $ parseOnly problemInput $ example
-    input <- TIO.readFile "05.txt"
+    input <- TIO.readFile "../data/05.txt"
     putStrLn . show $ part1 $ parseOnly problemInput $ input
     putStrLn . show $ part2 $ parseOnly problemInput $ example
     putStrLn . show $ part2 $ parseOnly problemInput $ input
