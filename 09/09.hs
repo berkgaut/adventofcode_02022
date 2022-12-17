@@ -57,40 +57,50 @@ updateTail tailPos@(tailX, tailY) headPos@(headX, headY) = update tailPos tailDe
 
 data State = State {
     moves :: [Dir],
-    headPos :: (Int, Int),
-    tailPos :: (Int, Int),
+    knots :: [(Int, Int)],
     tailPositions :: [(Int, Int)],
     stop :: Bool
     } deriving Show
 
-initialState moves = State { moves = moves, headPos = (0, 0), tailPos = (0, 0), tailPositions = [], stop = False }
+initialState n moves = State {
+    moves = moves,
+    knots = take n $ repeat (0, 0), 
+    tailPositions = [],
+    stop = False
+    }
+
 step :: State -> State
 step state@State{} =
-    State {moves=moves', headPos=headPos', tailPos=tailPos', tailPositions=tailPositions', stop = stop } where
+    State { moves=moves', knots=knots', tailPositions=tailPositions', stop = stop } where
         (nextMove, moves') = case moves state of
             [] -> (Nothing, [])
             (hd:tl) -> (Just hd, tl)
-        headPos' = (headPos state) `update` (delta nextMove)
-        tailPos' = (tailPos state) `updateTail` headPos'
+        headKnot:tailKnots = knots state
+        knots' = reverse $ foldr (\knot updated@(preceeding:rest) -> 
+            (knot `updateTail` preceeding):updated) [headKnot `update` (delta nextMove)] tailKnots
+        tailPos' = last knots'
         tailPositions' = tailPos' : (tailPositions state)
-        stop = (headPos state == headPos') && (tailPos' == (tailPos state))
+        stop = knots' == knots state
 
-simulate moves = takeWhile (not . stop) $ iterate step $ initialState moves
+simulate n moves = takeWhile (not . stop) $ iterate step $ initialState n moves
 
 
-part1 lines = 
+run n lines = 
     S.size 
     $ S.fromList
     $ tailPositions
     $ last
-    $ simulate moves where moves = simplify $ map (\(Right x)->x) $ map (parseOnly line) $ lines
+    $ simulate 2 moves where moves = simplify $ map (\(Right x)->x) $ map (parseOnly line) $ lines
 
-debug lines = simulate $ simplify $ map (\(Right x)->x) $ map (parseOnly line) $ lines
+
+debug n lines = simulate n $ simplify $ map (\(Right x)->x) $ map (parseOnly line) $ lines
 
 main :: IO ()
 main = do
     example <- TIO.readFile "09-example.txt"
     input <- TIO.readFile "../data/09.txt"
-    --putStrLn  $ intercalate "\n" $ map show $ debug $ T.lines $ example
-    putStrLn $ show $ part1 $ T.lines $ example
-    putStrLn $ show $ part1 $ T.lines $ input
+    --putStrLn  $ intercalate "\n" $ map show $ debug 2 $ T.lines $ example
+    putStrLn $ show $ run 2 $ T.lines $ example
+    putStrLn $ show $ run 2 $ T.lines $ input
+    example2 <- TIO.readFile "09-example-2.txt"
+    putStrLn $ show $ run 10 $ T.lines $ example
