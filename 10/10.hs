@@ -2,9 +2,9 @@
 
 import qualified Data.Text as T
 import qualified Data.Text.IO as TIO
-import qualified Data.Set as S (fromList, size)
 import Control.Applicative ((<|>))
 import Data.List(takeWhile, iterate, intercalate)
+import Data.List.Split (chunksOf)
 
 import Data.Attoparsec.Text (
     Parser,
@@ -57,9 +57,35 @@ part1 lines =
     $ filter (\(cycle, x)-> cycle `elem` [20, 60, 100, 140, 180, 220])
     $ run $ parseInput $ lines
 
+--- Part 2 ---
+
+pixel :: (Int, Int) -> Char
+pixel (cycle, x) = repr where
+    repr = if visible then '#' else ' '
+    visible = (abs (rayPos - spritePos)) <= 1
+    spritePos = x
+    rayPos = (cycle - 1) `mod` 40
+
+screen :: [(Int, Int)] -> String
+screen cycles = 
+    intercalate "\n"
+    $ chunksOf 40
+    $ map pixel
+    $ cycles
+
+part2 lines = 
+    screen
+    $ run $ parseInput $ lines
+
 main :: IO ()
 main = do
     example <- TIO.readFile "10-example.txt"
     input <- TIO.readFile "../data/10.txt"
+    putStrLn "--- Part 1 ---"
     putStrLn $ show $ part1 $ T.lines $ example
     putStrLn $ show $ part1 $ T.lines $ input
+    putStrLn "--- Part 2 ---"
+    putStrLn "----------------------------------------"
+    putStrLn $ part2 $ T.lines $ example
+    putStrLn "----------------------------------------"
+    putStrLn $ part2 $ T.lines $ input
